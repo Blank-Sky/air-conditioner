@@ -4,7 +4,7 @@
   "version": "0.1.3",
   "private": true,
   "packageManager": "pnpm@9.15.2",
-  "description": "云空调，便携小空调",
+  "description": "云遥控",
   "author": {
     "url": "https://www.yunyoujun.cn",
     "email": "me@yunyoujun.cn",

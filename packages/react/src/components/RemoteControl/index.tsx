@@ -2,81 +2,18 @@ import { blue, green, red } from '@mui/material/colors'
 
 import React from 'react'
 import { useAc, useAcCtx } from '~/context'
-import { getAssetsUrl } from '~/utils'
 import RCButton from './RCButton'
 
 import { useAcTemperature } from './temperature'
 import './index.scss'
 
-let playStartSoundTimeoutId: any
-let playWorkSoundTimeoutId: any
-let playWorkSoundIntervalId: any
-
-/**
- * 播放空调启动声音
- */
-function playStartSound() {
-  const acStart = document.getElementById('ac-work') as HTMLAudioElement
-  acStart.load()
-  acStart.play()
-
-  playStartSoundTimeoutId = setTimeout(() => {
-    playWorkSound()
-  }, 8000)
-}
-
-// 噪音起始时间
-const noiseStartTime = 2
-// 噪音持续时间
-const noiseDuration = 56
-
-/**
- * 播放空调工作声音
- */
-function playWorkSound() {
-  const acWork = document.getElementById(
-    'air-extractor-fan',
-  ) as HTMLAudioElement
-  acWork.load()
-  acWork.play()
-
-  playWorkSoundTimeoutId = setTimeout(() => {
-    playWorkSoundIntervalId = setInterval(() => {
-      acWork.currentTime = noiseStartTime
-    }, noiseDuration * 1000)
-  }, noiseStartTime * 1000)
-}
-
 /**
  * 切换空调工作状态
  */
 function toggleAC(status: boolean) {
-  if (status) {
-    (document.getElementById('ac-work') as HTMLAudioElement).load()
-    const acWork = document.getElementById(
-      'air-extractor-fan',
-    ) as HTMLAudioElement
-    if (playStartSoundTimeoutId)
-      clearTimeout(playStartSoundTimeoutId)
-
-    if (playWorkSoundTimeoutId)
-      clearTimeout(playWorkSoundTimeoutId)
-
-    if (playWorkSoundIntervalId)
-      clearInterval(playWorkSoundIntervalId)
-
-    acWork.currentTime = noiseStartTime + noiseDuration
-  }
-  else {
-    playStartSound()
-  }
+  // 打印
+  console.log(status)
 }
-
-const SOUND_DI_PATH = getAssetsUrl('/assets/audio/di.m4a')
-const SOUND_AC_WORK_PATH = getAssetsUrl('/assets/audio/ac-work.m4a')
-const SOUND_AIR_EXTRACTOR_FAN_PATH = getAssetsUrl(
-  '/assets/audio/air-extractor-fan.m4a',
-)
 
 /**
  * 遥控
@@ -89,14 +26,6 @@ const RemoteControl: React.FC = () => {
 
   return (
     <div className="flex my-6 flex-col items-center">
-      <audio id="di" src={SOUND_DI_PATH} preload="auto"></audio>
-      <audio id="ac-work" src={SOUND_AC_WORK_PATH} preload="auto"></audio>
-      <audio
-        id="air-extractor-fan"
-        src={SOUND_AIR_EXTRACTOR_FAN_PATH}
-        preload="auto"
-      >
-      </audio>
       <div>
         {' '}
         <RCButton
