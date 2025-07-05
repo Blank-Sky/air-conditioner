@@ -1,5 +1,3 @@
-import type { AcMode } from '~/types'
-
 import React from 'react'
 import * as pkg from '~/../package.json'
 import { Fade } from '../Fade'
@@ -9,8 +7,6 @@ import { EnergyLabel } from './EnergyLabel'
 import { EnergySavingLabel } from './EnergySavingLabel'
 
 import './AirConditioner.scss'
-
-// import { adsenseLink, jumpToAdsense } from "../adsense";
 
 export const acColor = {
   border: '#e0e0e0',
@@ -71,9 +67,9 @@ const AirOutlet: React.FC = () => {
  * 空调状态
  * @param props
  */
-const AcStatus: React.FC<{ status: boolean }> = (props) => {
+const AcStatus: React.FC<{ power: number }> = (props) => {
   // 空调状态小灯
-  const led = { backgroundColor: props.status ? '#38F709' : acColor.border }
+  const led = { backgroundColor: props.power === 1 ? '#38F709' : acColor.border }
 
   return (
     <div
@@ -112,23 +108,23 @@ const WindEffect = React.forwardRef((props, ref) => {
  * 空调
  */
 const AirConditioner: React.FC<{
-  mode: AcMode
-  status: boolean
-  temperature: number
+  mode: number // [模式] 0: 自动, 1: 制冷, 2: 除湿, 3: 风扇, 4: 制热
+  power: number // [电源] 1: 开机, 0: 关机
+  temp: number // [温度]
 }> = (props) => {
   return (
     <div>
       <AcBorder>
-        <Fade in={props.status}>
+        <Fade in={props.power}>
           <AcDisplay mode={props.mode} />
         </Fade>
         <AcLogo />
         <AirOutlet />
-        <AcStatus status={props.status} />
+        <AcStatus power={props.power} />
         <EnergyLabel titleLength={6} />
         {import.meta.env.VITE_DISABLE_ADSENSE ? null : <EnergySavingLabel />}
       </AcBorder>
-      <Fade in={props.status}>
+      <Fade in={props.power}>
         <WindEffect />
       </Fade>
     </div>

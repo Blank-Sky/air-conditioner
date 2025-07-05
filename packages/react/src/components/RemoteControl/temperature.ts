@@ -1,8 +1,8 @@
 import { useAcCtx } from '~/context'
 import { useToastCtx } from '~/context/toast'
 
-export const maxTemperature = 31
-export const minTemperature = 16
+export const maxTemperature = 31 - 16
+export const minTemperature = 16 - 16
 
 export function useAcTemperature() {
   const { state, dispatch } = useAcCtx()
@@ -12,7 +12,7 @@ export function useAcTemperature() {
    * 增加温度
    */
   const increase = () => {
-    if (state.temperature < maxTemperature) {
+    if (state.temp < maxTemperature) {
       dispatch({ type: 'increment' })
     }
     else {
@@ -31,7 +31,7 @@ export function useAcTemperature() {
    * 降低温度
    */
   const decrease = () => {
-    if (state.temperature > minTemperature) {
+    if (state.temp > minTemperature) {
       dispatch({ type: 'decrement' })
     }
     else {

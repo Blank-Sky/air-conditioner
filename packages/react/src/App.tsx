@@ -4,7 +4,6 @@ import { BrowserRouter as Router, useRoutes } from 'react-router-dom'
 
 // @ts-expect-error vite-plugin-pages
 import routes from '~react-pages'
-import Copyright from '~/components/layouts/Copyright'
 import pkg from '../package.json'
 
 import './App.scss'
@@ -64,7 +63,7 @@ const App: FC = () => {
           <Routes />
         </Router>
 
-        <Copyright />
+        {/* <Copyright /> */}
       </div>
     </main>
   )

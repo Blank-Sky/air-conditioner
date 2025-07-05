@@ -8,6 +8,11 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: '0.0.0.0', // 可选，让你在局域网其他设备访问
+    port: 8081, // 修改端口，比如改为 3000
+  },
+
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,

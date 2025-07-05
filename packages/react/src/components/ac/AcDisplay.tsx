@@ -1,4 +1,3 @@
-import type { AcMode } from '~/types'
 import React from 'react'
 import { useAcCtx } from '~/context'
 import { acColor } from './AirConditioner'
@@ -10,7 +9,7 @@ const AcTemperature: React.FC = () => {
   const { state } = useAcCtx()
   return (
     <h4 className="text-4xl text-center">
-      <span className="font-digit ac-temperature">{state.temperature}</span>
+      <span className="font-digit ac-temperature">{state.temp + 16}</span>
       <small className="font-digit">°C</small>
     </h4>
   )
@@ -20,7 +19,7 @@ const AcTemperature: React.FC = () => {
  * 显示屏（温度/图标）
  * @param props
  */
-export const AcDisplay: React.FC<{ mode: AcMode }> = React.forwardRef(
+export const AcDisplay: React.FC<{ mode: number }> = React.forwardRef(
   (props, ref) => {
     return (
       <div
@@ -31,8 +30,7 @@ export const AcDisplay: React.FC<{ mode: AcMode }> = React.forwardRef(
         }}
       >
         <h6 className="text-left text-sm">
-          <span>{props.mode === 'cold' ? '❄' : '☀️'}</span>
-          ️️
+          <span>{props.mode === 1 ? '❄' : props.mode === 2 ? '💧' : props.mode === 3 ? '🌬️' : props.mode === 4 ? '☀️' : '❓'}</span>
         </h6>
         <AcTemperature />
       </div>

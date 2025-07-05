@@ -8,7 +8,7 @@ export function EnergySavingLabel() {
   return (
     <a
       className="adsense-link"
-      href={adsense.link}
+      // href={adsense.link}
       target="_blank"
       rel="noreferrer"
     >

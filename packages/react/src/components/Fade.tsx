@@ -17,10 +17,10 @@ const transitionStyles: Record<TransitionStatus, { opacity: number }> = {
   unmounted: { opacity: 0 },
 }
 
-export const Fade: React.FC<{ in: boolean, children: React.ReactNode }> = (props) => {
+export const Fade: React.FC<{ in: number, children: React.ReactNode }> = (props) => {
   const nodeRef = useRef(null)
   return (
-    <Transition nodeRef={nodeRef} in={props.in} timeout={duration}>
+    <Transition nodeRef={nodeRef} in={props.in === 1} timeout={duration}>
       {state => (
         <div
           ref={nodeRef}

@@ -2,27 +2,30 @@ import { blue, green, red } from '@mui/material/colors'
 
 import React from 'react'
 import { useAc, useAcCtx } from '~/context'
-import RCButton from './RCButton'
+import { sendAcStatus } from './apiACControl'
 
+import RCButton from './RCButton'
 import { useAcTemperature } from './temperature'
 import './index.scss'
-
-/**
- * 切换空调工作状态
- */
-function toggleAC(status: boolean) {
-  // 打印
-  console.log(status)
-}
 
 /**
  * 遥控
  */
 const RemoteControl: React.FC = () => {
-  const { toggleStatus, toggleMode } = useAc()
+  const { togglePower, toggleMode } = useAc()
   const { state: ac } = useAcCtx()
 
   const { increase, decrease } = useAcTemperature()
+
+  const sendAC = () => {
+    sendAcStatus(ac)
+      .then(() => {
+        console.log(ac)
+      })
+      .catch(() => {
+        console.log(ac)
+      })
+  }
 
   return (
     <div className="flex my-6 flex-col items-center">
@@ -35,7 +38,7 @@ const RemoteControl: React.FC = () => {
             backgroundColor: blue[700],
           }}
           onClick={() => {
-            toggleMode('cold')
+            toggleMode(1)
           }}
         >
           <div className="i-ic-round-ac-unit text-2xl" />
@@ -43,11 +46,10 @@ const RemoteControl: React.FC = () => {
         <RCButton
           aria-label="add"
           onClick={() => {
-            toggleAC(ac.status)
-            toggleStatus()
+            togglePower()
           }}
           style={{
-            backgroundColor: ac.status ? red[600] : green[600],
+            backgroundColor: ac.power ? red[600] : green[600],
             color: 'white',
           }}
         >
@@ -57,7 +59,7 @@ const RemoteControl: React.FC = () => {
           aria-label="hot"
           style={{ backgroundColor: 'orange', color: 'white' }}
           onClick={() => {
-            toggleMode('hot')
+            toggleMode(4)
           }}
         >
           <div className="i-ic-round-wb-sunny text-2xl" />
@@ -74,6 +76,12 @@ const RemoteControl: React.FC = () => {
         onClick={decrease}
       >
         <div className="i-mdi-triangle-small-down text-4xl" />
+      </RCButton>
+      <RCButton
+        aria-label="send"
+        onClick={sendAC}
+      >
+        <div className="i-mdi-telegram text-3xl" />
       </RCButton>
     </div>
   )
