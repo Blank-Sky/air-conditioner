@@ -5,7 +5,10 @@ RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
 
-RUN pnpm install && npm run build
+# 设置淘宝镜像源 + 安装依赖
+RUN pnpm config set registry https://registry.npmmirror.com && \
+    pnpm install && \
+    pnpm --filter react build
 
 FROM nginx:alpine
 
