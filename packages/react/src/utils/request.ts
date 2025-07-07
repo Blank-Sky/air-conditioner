@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://192.168.10.197:1880', // 设置统一的基础路径（根据你项目需要修改）
+  baseURL: '', // 设置统一的基础路径（根据你项目需要修改）
   timeout: 10000, // 请求超时时间（可选）
 })
 
