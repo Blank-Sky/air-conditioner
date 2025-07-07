@@ -5,14 +5,7 @@ RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
 
-RUN pnpm config set registry https://registry.npmjs.org/
-
-# 安装所有 workspace 依赖
-RUN pnpm install
-
-# 进入子包，单独 build
-WORKDIR /app/packages/react
-RUN pnpm build
+RUN pnpm install && npm run build
 
 FROM nginx:alpine
 
