@@ -8,6 +8,7 @@ import { getAcStatus } from '~/components/RemoteControl/apiACControl'
 import Toast from '~/components/Toast'
 import { defaultState, useAcCtx } from '~/context'
 import { useDetectStorage } from '~/hooks'
+import {useToastCtx} from "~/context/toast";
 
 function fallbackToLocalStorage() {
   useDetectStorage()
@@ -18,10 +19,12 @@ function fallbackToLocalStorage() {
  */
 const Home: React.FC = () => {
   const { state: ac, dispatch } = useAcCtx()
+  const { dispatch: dispatchToast } = useToastCtx()
   useEffect(() => {
     // 页面首次加载，获取空调状态
     getAcStatus()
       .then((res) => {
+        // eslint-disable-next-line no-console
         console.log('获取到的空调状态:', res)
         dispatch({
           type: 'update',
@@ -30,9 +33,26 @@ const Home: React.FC = () => {
             ...res,
           },
         })
+        dispatchToast({
+          type: 'update',
+          payload: {
+            message: '遥控器连接成功',
+            open: true,
+            severity: 'success',
+          },
+        })
       })
       .catch((err) => {
         console.error('获取空调状态失败:', err)
+        dispatchToast({
+          type: 'update',
+          payload: {
+            message: '遥控器连接失败',
+            open: true,
+            severity: 'error',
+          },
+        })
+
         // 非 hook 的 fallback 函数，比如：
         fallbackToLocalStorage()
       })

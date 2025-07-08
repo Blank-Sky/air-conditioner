@@ -2,8 +2,9 @@ import { blue, green, red } from '@mui/material/colors'
 
 import React from 'react'
 import { useAc, useAcCtx } from '~/context'
-import { sendAcStatus } from './apiACControl'
+import { useToastCtx } from '~/context/toast'
 
+import { sendAcStatus } from './apiACControl'
 import RCButton from './RCButton'
 import { useAcTemperature } from './temperature'
 import './index.scss'
@@ -14,16 +15,39 @@ import './index.scss'
 const RemoteControl: React.FC = () => {
   const { togglePower, toggleMode } = useAc()
   const { state: ac } = useAcCtx()
-
+  const { dispatch: dispatchToast } = useToastCtx()
   const { increase, decrease } = useAcTemperature()
 
   const sendAC = () => {
+    // 发送空调状态
+    dispatchToast({
+      type: 'update',
+      payload: {
+        message: '正在发送遥控指令...',
+        open: true,
+        severity: 'info',
+      },
+    })
     sendAcStatus(ac)
       .then(() => {
-        console.log(ac)
+        dispatchToast({
+          type: 'update',
+          payload: {
+            message: '遥控指令发送成功',
+            open: true,
+            severity: 'success',
+          },
+        })
       })
       .catch(() => {
-        console.log(ac)
+        dispatchToast({
+          type: 'update',
+          payload: {
+            message: '遥控指令发送失败',
+            open: true,
+            severity: 'error',
+          },
+        })
       })
   }
 
