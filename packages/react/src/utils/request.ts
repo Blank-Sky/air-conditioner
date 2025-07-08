@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: '', // 设置统一的基础路径（根据你项目需要修改）
+  baseURL: 'https://node-red.haojiahuo233.com', // 设置统一的基础路径（根据你项目需要修改）
   timeout: 10000, // 请求超时时间（可选）
 })
 
